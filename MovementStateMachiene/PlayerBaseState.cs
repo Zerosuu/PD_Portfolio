@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Abstract state used as template for all the player's states
+// Abstract state used as base class for all player states
 public abstract class PlayerBaseState
 {
     protected PlayerStateMachiene _ctx;
@@ -19,18 +19,16 @@ public abstract class PlayerBaseState
     public abstract void ExitState(); // Handles code run when exiting the state
 
     public abstract void CheckSwitchStates(); // Handles checks to see if state should be exited
-    public abstract void TakeMessage(string message);
+    
+    public abstract void TakeMessage(string message); // Function to send information to the current state
 
     protected void SwitchState(PlayerBaseState newState) // Handles proper switching of states
     {
-        // Exit the current state
-        ExitState();
+        ExitState(); // Exit the current state
 
-        // Enter the new state
-        newState.EnterState();
+        newState.EnterState(); // Enter the new state
 
-        // Switch the state
-        _ctx.CurrentState = newState;
+        _ctx.CurrentState = newState; // Switch the state
     }
 }
 
