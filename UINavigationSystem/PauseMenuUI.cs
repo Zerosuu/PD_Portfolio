@@ -2,28 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// Subclass of BaseMenuUI used for UI Navigation and various functionality for the pause menu
 public class PauseMenuUI : BaseMenuUI
 {
-    private readonly List<GameObject> visualCollectables = new List<GameObject>();
-    private readonly RotateObject rotateScript;
+    private readonly List<GameObject> visualCollectables = new List<GameObject>(); // Unused in this version
+    private readonly RotateObject rotateScript; // Unused in this version
 
-    public AudioSource papperAudio1;
-    public AudioSource papperAudio2;
-    public AudioSource papperAudio3;
-    public AudioSource papperAudio4;
-    public AudioSource papperAudio5;
-    public AudioSource papperAudio6;
-
-    /*void Start()
-    {
-        //rotateScript = transform.Find("CollectablesMenu").Find("CollectableView").Find("ItemRenderer").GetComponent<RotateObject>();
-
-        Transform objectsParent = transform.Find("VisualCollectables").Find("Objects");
-
-        foreach (Transform child in objectsParent)
-            visualCollectables.Add(child.gameObject);
-    }*/
-
+    // Update function listening to button inputs to determine if program should go up a submenu or resume the game
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -42,6 +27,7 @@ public class PauseMenuUI : BaseMenuUI
         }
     }
 
+    // Ovveride function handling how submenus are navigated within the UI
     protected override void SwapLayer()
     {
         if (_menuLayerSwap.Count > 0)
@@ -55,12 +41,14 @@ public class PauseMenuUI : BaseMenuUI
             ResumeGame();
         }
     }
-
+    
+    // Function setting the specifid item to be displayed and rotated; Unused in this version
     public void SetInspectItem(int num)
     {
         rotateScript.SetItem(visualCollectables[num]);
     }
 
+    // Function loading all available rotateable items in collection, triggered on Start function; Unused in this version
     public void LoadCollectedItems()
     {
         GameObject buttonList = transform.Find("SubMenus/CollectablesMenu/PagesView/CollectableButtons").gameObject;
@@ -76,25 +64,10 @@ public class PauseMenuUI : BaseMenuUI
         }
     }
 
+    // Function resuming the game when paused
     public void ResumeGame()
     {
         Time.timeScale = 1;
         Cursor.lockState = CursorLockMode.Locked;
     }
-
-    // play inner papper audio functions we will connect it to on click so when we read the collectible pages we hear VA
-    public void PlayInnerPapperAudio1() { papperAudio1.Play(); }
-    public void PlayInnerPapperAudio2() { papperAudio2.Play(); }
-    public void PlayInnerPapperAudio3() { papperAudio3.Play(); }
-    public void PlayInnerPapperAudio4() { papperAudio4.Play(); }
-    public void PlayInnerPapperAudio5() { papperAudio5.Play(); }
-    public void PlayInnerPapperAudio6() { papperAudio6.Play(); }
-
-    // stop playing the inner papper audio functions we will connect it to on click for the back button
-    public void StopInnerPapperAudio1() { papperAudio1.Stop(); }
-    public void StopInnerPapperAudio2() { papperAudio2.Stop(); }
-    public void StopInnerPapperAudio3() { papperAudio3.Stop(); }
-    public void StopInnerPapperAudio4() { papperAudio4.Stop(); }
-    public void StopInnerPapperAudio5() { papperAudio5.Stop(); }
-    public void StopInnerPapperAudio6() { papperAudio6.Stop(); }
 }
