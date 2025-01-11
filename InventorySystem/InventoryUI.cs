@@ -90,7 +90,6 @@ public class InventoryUI : MonoBehaviour
             items[i].GetComponent<RectTransform>().localPosition = new Vector2(i * size.x - size.x * (items.Count - 1) / 2, pos.y);
             items[i].transform.GetChild(0).GetChild(0).GetComponent<TextMeshProUGUI>().text = $"{i + 1}";
         }
-            
     }
 
     // Function returning the name of the selected item
