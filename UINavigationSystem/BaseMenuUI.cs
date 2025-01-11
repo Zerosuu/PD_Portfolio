@@ -5,6 +5,7 @@ using UnityEngine.Rendering;
 using System;
 using UnityEngine.UI;
 
+// Class used as base for all UI menus, set as baseline to navigate through UI and includes settings functions
 public abstract class BaseMenuUI : MonoBehaviour
 {
     private VolumeProfile _volumeProfile;
@@ -12,7 +13,7 @@ public abstract class BaseMenuUI : MonoBehaviour
 
     protected Stack<GameObject> _menuLayerSwap = new Stack<GameObject>();
 
-    // Start is called before the first frame update
+    // Start function setting defaults for class
     void Start()
     {
         _volumeProfile = transform.Find("OptionsVolume").GetComponent<Volume>().profile;
@@ -24,6 +25,7 @@ public abstract class BaseMenuUI : MonoBehaviour
             sliderParetTransform.Find("Slider").GetComponent<Slider>().value = PlayerPrefs.GetFloat(sliderParetTransform.name, 0);
     }
 
+    // Function determining how UI should be navigated when going up submenus
     protected virtual void SwapLayer()
     {
         if (_menuLayerSwap.Count > 0)
@@ -33,11 +35,13 @@ public abstract class BaseMenuUI : MonoBehaviour
         }
     }
 
+    // Function adding the specified submenu to be able to accurately go back
     public void AddLayer(GameObject button)
     {
         _menuLayerSwap.Push(button);
     }
 
+    // Function removing the current submenu from list when going up and saves set options if the current was the options submenu
     public void RemoveLayer()
     {
         if (_menuLayerSwap.Pop().transform.parent.name == "Options")
@@ -45,11 +49,13 @@ public abstract class BaseMenuUI : MonoBehaviour
                 PlayerPrefs.SetFloat(sliderParetTransform.name, sliderParetTransform.Find("Slider").GetComponent<Slider>().value);
     }
 
+    // Function adjusting the volume of the game through the general audio asset, set on a slider
     public void AdjustMasterVolume(float input)
     {
         AudioListener.volume = input + 1;
     }
 
+    // Function adjusting the brightness of the game, set on a slider
     public void AdjustBrightness(float input)
     {
         if (_volumeProfile != null && _volumeProfile.TryGet<ColorAdjustments>(out ColorAdjustments colorAdjustment))
@@ -58,11 +64,13 @@ public abstract class BaseMenuUI : MonoBehaviour
             Debug.Log("PauseMenuUI: Volume/ColorAdjustment not found");
     }
 
+    // Function adjusting the mouse sensitivity of the game, set on a slider
     public void AdjustSensitivity(float input)
     {
         Camera.main.transform.parent.GetComponent<firstPersonController>().AdjustSensitivity(input);
     }
 
+    // Function closing the game
     public void QuitGame()
     {
         Application.Quit();
